@@ -12,11 +12,13 @@ window.onload = function() {
     let addBtn = document.querySelector('#addBtn')
     let addTxt = document.querySelector('#addTxt')
     addBtn.onclick = function(e) {
-        if (addTxt.value == '' || curStudents.includes(addTxt.value)) {
-            return
-        }
-
-        curStudents.push(addTxt.value)
+        addStudents = []
+        addTxt.value.split(/\r\n|\n|\r/g).forEach(s => {
+            if (s != '' && !curStudents.includes(s)) {
+                curStudents.push(s)
+                addStudents.push(s)
+            }
+        })
         chrome.storage.local.set({
             students: curStudents.sort()
         }, function() {
@@ -24,8 +26,10 @@ window.onload = function() {
             if (err) {
                 console.error(err)
             } else {
-                let o = new Option(addTxt.value, addTxt.value)
-                studentSelect.add(o, undefined)
+                addStudents.forEach(s => {
+                    let o = new Option(s, s)
+                    studentSelect.add(o, undefined)
+                })
                 addTxt.value = ''
             }
         })

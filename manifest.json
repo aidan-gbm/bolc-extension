@@ -1,0 +1,21 @@
+{
+    "name": "BOLC Tools",
+    "version": "1.0",
+    "description": "Take accountability on BBB.",
+    "options_page": "options.html",
+    "permissions": ["storage", "activeTab", "declarativeContent"],
+    "background": {
+        "scripts": ["js/background.js"],
+        "persistent": false
+    },
+    "page_action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "128": "images/128.png"
+        }
+    },
+    "icons": {
+        "128": "images/128.png"
+    },
+    "manifest_version": 2
+}

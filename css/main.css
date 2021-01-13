@@ -1,0 +1,47 @@
+body {
+    width: 250px;
+    background-color: gray;
+}
+
+.nav {
+    border-bottom: 1px solid black;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+.nav a {
+    text-decoration: none;
+    color: rgb(255, 199, 58);
+    font-weight: bold;
+}
+
+.content ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+select {
+    width: 100%;
+}
+
+input {
+    margin-top: 10px
+}
+
+button {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#present li {
+    color: rgb(158, 226, 149);
+}
+
+#unknown li {
+    color: rgb(7, 52, 136);
+}
+
+#missing li {
+    color: rgb(136, 7, 7);
+}

@@ -33,15 +33,3 @@ button {
     margin-top: 5px;
     margin-bottom: 5px;
 }
-
-#present li {
-    color: rgb(158, 226, 149);
-}
-
-#unknown li {
-    color: rgb(7, 52, 136);
-}
-
-#missing li {
-    color: rgb(136, 7, 7);
-}

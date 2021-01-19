@@ -1,4 +1,4 @@
-function getStudent(students, name) {
+function findStudent(students, name) {
     let retVal = -1
     for (let idx = 0; idx < students.length; idx++) {
         let lastName = students[idx].split(',')[0]
@@ -10,30 +10,35 @@ function getStudent(students, name) {
     return retVal
 }
 
-function displayRosters(request, students) {
-    let presentRoster = document.getElementById('present');
-    let missingRoster = document.getElementById('missing');
-    let unknownRoster = document.getElementById('unknown');
+function getAccountability(request, students) {
+    let rosterDiv = document.querySelector('#rosterDiv')
     if (request.action == 'getAccountability') {
-        presentRoster.innerHTML = ''
-        missingRoster.innerHTML = ''
-        unknownRoster.innerHTML = ''
+        let rosters = { Present: [], Missing: [], Other: [] }
         request.names.forEach(name => {
-            let li = document.createElement('li')
-            li.innerText = name
-            let s = getStudent(students, name)
+            let s = findStudent(students, name)
             if (s >= 0) {
+                rosters.Present.push(students[s])
                 students.splice(s, 1)
-                presentRoster.appendChild(li)
             } else {
-                unknownRoster.appendChild(li)
+                rosters.Other.push(name)
             }
         })
-        students.forEach(name => {
-            let li = document.createElement('li')
-            li.innerText = name
-            missingRoster.appendChild(li)
-        })
+        rosterDiv.innerHTML = ''
+        rosters.Missing = students
+        document.querySelector('#accountability').innerText = 'Refresh'
+        for (key in rosters) {
+            let label = document.createElement('h2')
+            let list = document.createElement('ul')
+            label.innerText = key
+            rosters[key].forEach(value => {
+                let li = document.createElement('li')
+                li.innerText = value
+                list.appendChild(li)
+            })
+            rosterDiv.appendChild(label)
+            rosterDiv.appendChild(list)
+            rosterDiv.removeAttribute('hidden')
+        }
     }
 }
 
@@ -44,7 +49,7 @@ window.onload = function() {
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
             chrome.tabs.executeScript(
                 tabs[0].id,
-                {file: 'js/getAccountability.js'}
+                {file: 'js/getStudents.js'}
             )
         });
     };
@@ -52,6 +57,6 @@ window.onload = function() {
 
 chrome.runtime.onMessage.addListener(function(request, sender) {
     chrome.storage.local.get('students', function(data) {
-        displayRosters(request, data.students)
+        getAccountability(request, data.students)
     })
 })
